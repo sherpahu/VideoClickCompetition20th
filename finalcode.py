@@ -1,27 +1,12 @@
-
 # coding: utf-8
 
-# In[ ]:
-
-
-
-##################################################################################################################
-
-# 1、有些说明在前一次开源已经说了，在这里就不说了；
-# 2、主要包含四组特征：
+# 主要包含四组特征：
 # （1）历史信息，即前一天的点击量、曝光量、点击率；
 # （2）前x次曝光、后x次曝光到当前的时间差，后x次到当前曝光的时间差是穿越特征，并且是最强的特征；
 # （3）二阶交叉特征；
 # （4）embedding。
-# 3、本来想一开到底的，但是得知15号之后就不让开源了，所以这应该是最后一次了，没机会为大家打开另外两张表了，大家自行发挥吧；
-# 4、希望大家都能拿第一名。
-
+# 之所以去掉了第一天的数据，有两个原因，一是因为第一组特征（历史信息）在第一天的数据上是空的，二是因为机器资源不够了。
 ##################################################################################################################
-
-
-# In[ ]:
-
-
 
 import pandas as pd
 import numpy as np
@@ -33,10 +18,6 @@ from gensim.models import Word2Vec
 import time
 import gc
 pd.set_option('display.max_columns', None)
-
-
-# In[ ]:
-
 
 
 def reduce_mem(df):
@@ -66,9 +47,6 @@ def reduce_mem(df):
     print('{:.2f} Mb, {:.2f} Mb ({:.2f} %)'.format(start_mem, end_mem, 100 * (start_mem - end_mem) / start_mem))
     gc.collect()
     return df
-
-
-# In[ ]:
 
 
 
@@ -115,10 +93,6 @@ gc.collect()
 print('runtime:', time.time() - t)
 
 
-# In[ ]:
-
-
-
 print('=============================================== cate enc ===============================================')
 df['lng_lat'] = df['lng'].astype('str') + '_' + df['lat'].astype('str')
 del df['guid']
@@ -139,10 +113,6 @@ df = reduce_mem(df)
 click_df = reduce_mem(click_df)
 sort_df = reduce_mem(sort_df)
 print('runtime:', time.time() - t)
-
-
-# In[ ]:
-
 
 
 print('=============================================== feat eng ===============================================')
@@ -286,10 +256,6 @@ del sort_df
 gc.collect()
 
 
-# In[ ]:
-
-
-
 print('========================================================================================================')
 train_df = df[:train_num].reset_index(drop=True)
 test_df = df[train_num:].reset_index(drop=True)
@@ -308,9 +274,6 @@ del train_x['day'], val_x['day'], train_df['day'], test_df['day']
 gc.collect()
 print('runtime:', time.time() - t)
 print('========================================================================================================')
-
-
-# In[ ]:
 
 
 
@@ -375,10 +338,6 @@ fea_imp_dict = dict(zip(train_df.columns.values, np.mean(fea_imp_list, axis=0)))
 fea_imp_item = sorted(fea_imp_dict.items(), key=lambda x: x[1], reverse=True)
 for f, imp in fea_imp_item:
     print('{} = {}'.format(f, imp))
-
-
-# In[ ]:
-
 
 
 print('=============================================== threshold search ===============================================')
