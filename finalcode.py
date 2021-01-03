@@ -19,7 +19,7 @@ import time
 import gc
 pd.set_option('display.max_columns', None)
 
-
+# 减少内存消耗，破机器跑不动
 def reduce_mem(df):
     start_mem = df.memory_usage().sum() / 1024 ** 2
     for col in df.columns:
