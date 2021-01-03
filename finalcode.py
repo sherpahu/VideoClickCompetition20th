@@ -12,7 +12,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import StratifiedKFold
 from lightgbm.sklearn import LGBMClassifier
-from sklearn.metrics import roc_auc_score, f1_score
+from sklearn.metrics import f1_score
 from scipy.stats import entropy
 from gensim.models import Word2Vec
 import time
