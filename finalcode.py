@@ -8,7 +8,7 @@
 # 之所以去掉了第一天的数据，有两个原因，一是因为第一组特征（历史信息）在第一天的数据上是空的，二是因为机器资源不够了。
 ##################################################################################################################
 
-import pandas as pd
+import modin.pandas as pd
 import numpy as np
 from sklearn.model_selection import StratifiedKFold
 from lightgbm.sklearn import LGBMClassifier
